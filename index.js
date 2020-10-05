@@ -56,7 +56,7 @@ async function requestHandler(req, resp) {
 async function getPage(title, path, script) {
   const [file, body] = await Promise.all([fsp.readFile(path),
     fsp.readFile(buildPath("templates/main.html"))])
-  const html = body.toString
+  const html = body.toString()
     .replace("PAGE_TITLE", title)
     .replace("PAGE_BODY", file.toString())
     .replace("PAGE_SCRIPT", script ? /*html*/`<script src="/js/${script}.js"></script>` : "")
