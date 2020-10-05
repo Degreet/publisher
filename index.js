@@ -7,8 +7,8 @@ const Cookies = require('cookies')
 const dotenv = require('dotenv')
 dotenv.config()
 
-const dbName = ""
-const appName = ""
+const dbName = "publisher"
+const appName = "Publisher"
 
 const PORT = process.env.PORT || 3000
 const pass = process.env.KEY
