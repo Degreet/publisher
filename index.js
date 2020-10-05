@@ -64,7 +64,7 @@ async function getPage(title, path, script) {
 }
 
 function buildPath(path) {
-  return `${__dirname}/${path}`
+  return `${__dirname}/public/${path}`
 }
 
 async function getCandidate(cookies) {
