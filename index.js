@@ -23,6 +23,47 @@ async function requestHandler(req, resp) {
 
   if (url.startsWith('/api/')) {
     url = url.slice(5)
+
+    if (url == "check-project-name") {
+      const { projectName } = JSON.parse(await streamToString(req))
+      const article = await getArticle(projectName)
+      const data = {}
+
+      data.checked = article ? false : true
+      resp.end(JSON.stringify(data))
+    } else if (url == "add") {
+      const article = JSON.parse(await streamToString(req))
+      const checkArticle = await getArticle(article.projectName)
+      const data = {}
+
+      if (checkArticle) {
+        data.success = false
+        data.msg = `Такое имя проекта уже занято. Попробуйте другое.`
+      } else {
+        await articles.insertOne({
+          projectName: article.projectName,
+          html: article.html,
+          css: article.css,
+          js: article.js
+        })
+        data.success = true
+      }
+
+      resp.end(JSON.stringify(data))
+    }
+  } else if (url.startsWith("/project/")) {
+    const projectName = url.replace("/project/", "")
+    const article = await getArticle(projectName)
+
+    if (article) {
+      resp.end(/*html*/`
+        <style>${article.css}</style>
+        ${article.html}
+        <script>${article.js}</script>
+      `)
+    } else {
+      resp.end(await getPage(`${appName} - Ошибка №404`, buildPath("errors/404.html")))
+    }
   } else {
     let path = process.cwd() + '/public' + url.replace(/\/$/, '')
 
@@ -55,7 +96,7 @@ async function requestHandler(req, resp) {
 
 async function getPage(title, path, script) {
   const [file, body] = await Promise.all([fsp.readFile(path),
-    fsp.readFile(buildPath("templates/main.html"))])
+  fsp.readFile(buildPath("templates/main.html"))])
   const html = body.toString()
     .replace("PAGE_TITLE", title)
     .replace("PAGE_BODY", file.toString())
@@ -67,9 +108,8 @@ function buildPath(path) {
   return `${__dirname}/public/${path}`
 }
 
-async function getCandidate(cookies) {
-  const token = cookies.get("token")
-  return await users.findOne({ token })
+async function getArticle(projectName) {
+  return await articles.findOne({ projectName })
 }
 
 function streamToString(stream) {
@@ -81,17 +121,10 @@ function streamToString(stream) {
   })
 }
 
-function generateToken() {
-  let res = ''
-  const chars = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890'
-  for (let i = 0; i < 32; i++) res += chars[Math.floor(Math.random() * chars.length)]
-  return res
-}
-
 client.connect(err => {
   if (err) console.log(err)
 
-  global.users = client.db(dbName).collection("users")
+  global.articles = client.db(dbName).collection("articles")
 
   server.listen(PORT, () => console.log(`Server started at http://localhost:${PORT}`))
   setTimeout(() => client.close(), 1e9)
