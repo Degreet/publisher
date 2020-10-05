@@ -31,7 +31,7 @@ body {
   font-size: 20px;
 }
 
-#card {
+.card {
   width: 40%;
   min-height: 100vh;
   height: 100%;
@@ -58,17 +58,17 @@ textarea {
 }
 
 @media (max-width: 1125px) {
-  #card {
+  .card {
     width: 100%;
   }
 }
 
 @media (max-width: 900px) {
-  #card {
+  .card {
     padding: 80px 20px;
   }
 
-  #card h1 {
+  .card h1 {
     font-size: 50px;
   }
 }

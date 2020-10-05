@@ -33,8 +33,10 @@ projectNameInp.oninput = projectNameInp.onchange = createBtn.onclick = e => {
               new Alert("success", `Проект успешно создан!`).show()
               createBtn.className = `ml-2 btn btn-success`
               setTimeout(() => {
-
-              }, 1200)
+                hrefToCreatedSite.href = hrefToCreatedSite.innerText = data.url
+                creatingSect.hidden = true
+                finishedSect.hidden = false
+              })
             } else {
               new Alert("danger", data.msg).show()
               createBtn.className = `ml-2 btn btn-danger`
