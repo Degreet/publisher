@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
 
 * {
   margin: 0;
@@ -55,4 +55,20 @@ textarea {
   min-width: 250px;
   max-width: 500px;
   z-index: 999;
+}
+
+@media (max-width: 1125px) {
+  #card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  #card {
+    padding: 80px 20px;
+  }
+
+  #card h1 {
+    font-size: 50px;
+  }
 }
