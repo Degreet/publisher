@@ -33,6 +33,8 @@ async function requestHandler(req, resp) {
       resp.end(JSON.stringify(data))
     } else if (url == "add") {
       const article = JSON.parse(await streamToString(req))
+      article.projectName = article.projectName.toLowerCase()
+      
       const checkArticle = await getArticle(article.projectName)
       const data = {}
 
@@ -41,7 +43,7 @@ async function requestHandler(req, resp) {
         data.msg = `Такое имя проекта уже занято. Попробуйте другое.`
       } else {
         await articles.insertOne({
-          projectName: article.projectName.toLowerCase(),
+          projectName: article.projectName,
           html: article.html,
           css: article.css,
           js: article.js
