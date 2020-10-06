@@ -47,7 +47,7 @@ async function requestHandler(req, resp) {
           js: article.js
         })
 
-        data.url = `${PORT == 3000 ? "http://localhost:3000" : "https://publisher.herokuapp.com"}/project/${article.projectName}`
+        data.url = `${PORT == 3000 ? "http://localhost:3000" : "https://publisher-js.herokuapp.com"}/project/${article.projectName}`
         data.success = true
       }
 
