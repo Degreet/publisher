@@ -41,7 +41,7 @@ async function requestHandler(req, resp) {
         data.msg = `Такое имя проекта уже занято. Попробуйте другое.`
       } else {
         await articles.insertOne({
-          projectName: article.projectName,
+          projectName: article.projectName.toLowerCase(),
           html: article.html,
           css: article.css,
           js: article.js
